@@ -5,7 +5,7 @@
     <div class="bg-white p-8 rounded-2xl shadow-md w-full max-w-md">
         <h2 class="text-center text-2xl font-semibold mb-6 text-gray-800">Daftar Akun PPDB</h2>
 
-        <form action="{{ route('register.store') }}" method="POST" class="space-y-4">
+        <form action="{{ route('daftar.store') }}" method="POST" class="space-y-4">
             @csrf
             <div>
                 <label for="name" class="block text-sm font-medium">Nama Lengkap</label>

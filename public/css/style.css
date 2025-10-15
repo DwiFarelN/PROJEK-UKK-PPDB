@@ -36,12 +36,24 @@ body {
     color: var(--primary-color);
 }
 
+.navbar-logo {
+    width: 45px;        /* ukuran logo */
+    height: 45px;
+    margin-right: 10px; /* jarak antara logo dan teks */
+    object-fit: contain;
+}
+
+
 .hero-section {
-    background: linear-gradient(rgba(26, 35, 126, 0.8), rgba(40, 53, 147, 0.9)), url('https://images.unsplash.com/photo-1523050854058-8df90110c9f1?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');
+    background: linear-gradient(rgba(26, 35, 126, 0.8), rgba(40, 53, 147, 0.9)), url('../images/profil.jpeg');
     background-size: cover;
     background-position: center;
     color: white;
-    padding: 6rem 0;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
     text-align: center;
 }
 

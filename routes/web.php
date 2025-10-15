@@ -1,78 +1,56 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\Auth\RegisterController;
-use App\Http\Controllers\Auth\LoginController;
+use App\Http\Controllers\AuthController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\PendaftaranController;
 use App\Http\Controllers\SiswaController;
-use App\Http\Controllers\CalonSiswaController;
+use App\Http\Controllers\AdminController;
+use App\Http\Controllers\PanitiaController;
 
-
-// Halaman utama
+// === HALAMAN UTAMA ===
 Route::get('/', function () {
     return view('home');
 })->name('home');
 
 // === REGISTER ===
-Route::get('/daftar', [RegisterController::class, 'showRegistrationForm'])->name('register');
-Route::post('/daftar', [RegisterController::class, 'register'])->name('register.store');
+Route::get('/daftar', [AuthController::class, 'showDaftarForm'])->name('daftar');
+Route::post('/daftar', [AuthController::class, 'daftarStore'])->name('daftar.store');
 
 // === LOGIN ===
-Route::get('/login', [LoginController::class, 'showLoginForm'])->name('login');
-Route::post('/login', [LoginController::class, 'login'])->name('login.store');
+Route::get('/login', [AuthController::class, 'showLoginForm'])->name('login');
+Route::post('/login', [AuthController::class, 'login'])->name('login.store');
 
 // === LOGOUT ===
-Route::post('/logout', [LoginController::class, 'logout'])->name('logout');
+Route::post('/logout', [AuthController::class, 'logout'])->name('logout');
 
-// === DASHBOARD ===
-Route::get('/dashboard', [DashboardController::class, 'index'])
-    ->middleware('auth')
-    ->name('dashboard');
+// === DASHBOARD UMUM (HANYA LOGIN) ===
+Route::middleware('auth')->prefix('dashboard')->group(function () {
+    Route::get('/', [DashboardController::class, 'beranda'])->name('dashboard');
+    Route::get('/beranda', [DashboardController::class, 'beranda'])->name('dashboard.beranda');
+    Route::get('/calon_siswa', [DashboardController::class, 'calonSiswa'])->name('dashboard.calon_siswa');
+    Route::get('/biodata', [DashboardController::class, 'biodata'])->name('dashboard.biodata');
+    Route::get('/status', [DashboardController::class, 'status'])->name('dashboard.status');
+    Route::get('/notifikasi', [DashboardController::class, 'notifikasi'])->name('dashboard.notifikasi');
+});
 
-    Route::get('/pendaftaran', [PendaftaranController::class, 'index'])
-    ->name('pendaftaran.index')
-    ->middleware('auth');
-
-// === siswa ===
+// === PENDAFTARAN ===
 Route::middleware('auth')->group(function () {
-    Route::get('/dashboard/siswa', [SiswaController::class, 'index'])->name('siswa.dashboard');
-
-    Route::get('/pendaftaran', [SiswaController::class, 'formPendaftaran'])->name('form.pendaftaran');
-    Route::post('/pendaftaran', [SiswaController::class, 'storePendaftaran'])->name('pendaftaran.store');
-});
-// Route pendaftaran
-Route::middleware('auth')->group(function () {
-    Route::get('/pendaftaran', [SiswaController::class, 'formPendaftaran'])
-        ->name('pendaftaran.index'); // <-- ini harus sesuai dengan yang di Blade
-
-    Route::post('/pendaftaran', [SiswaController::class, 'storePendaftaran'])
-        ->name('pendaftaran.store');
+    Route::get('/pendaftaran', [PendaftaranController::class, 'index'])->name('pendaftaran.index');
+    Route::post('/pendaftaran', [PendaftaranController::class, 'store'])->name('pendaftaran.store');
 });
 
-// dashboard siswa
-
-Route::prefix('dashboard')->middleware('auth')->group(function(){
-    
-    Route::get('/', function() {
-        return redirect()->route('dashboard.beranda');
-    });
-
-    Route::get('beranda', [App\Http\Controllers\DashboardController::class, 'beranda'])->name('dashboard.beranda');
-    Route::get('calon_siswa', [App\Http\Controllers\DashboardController::class, 'calonSiswa'])->name('dashboard.calon_siswa');
-
-    // 🟢 Route untuk simpan calon siswa baru
-    Route::post('calon_siswa', [App\Http\Controllers\CalonSiswaController::class, 'store'])
-        ->name('dashboard.calon_siswa.store');
-        
-    Route::get('biodata', [App\Http\Controllers\DashboardController::class, 'biodata'])->name('dashboard.biodata');
-    Route::get('status', [App\Http\Controllers\DashboardController::class, 'status'])->name('dashboard.status');
-    Route::get('notifikasi', [App\Http\Controllers\DashboardController::class, 'notifikasi'])->name('dashboard.notifikasi');
+// === DATA SISWA ===
+Route::middleware(['auth', 'role:siswa'])->group(function () {
+    Route::get('/siswa/dashboard', [SiswaController::class, 'index'])->name('siswa.dashboard');
 });
 
-// route buat simpan data dari form pendaftaran
-Route::post('/pendaftaran/store', [CalonSiswaController::class, 'store'])->name('pendaftaran.store');
+// === ADMIN ===
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/', [AdminController::class, 'index'])->name('admin.dashboard');
+});
 
-
-
-
+// === PANITIA ===
+Route::middleware(['auth', 'role:admin,panitia'])->prefix('panitia')->group(function () {
+    Route::get('/', [PanitiaController::class, 'index'])->name('panitia.dashboard');
+});

@@ -8,7 +8,7 @@ use App\Models\Notifikasi;
 
 class DashboardController extends Controller
 {
-    public function index()
+    public function beranda()
     {
         $user = auth()->user(); // ambil data user login
         return view('dashboard', compact('user'));

@@ -163,7 +163,7 @@
         <a href="#" class="btn-daftar">Daftar</a>
         <div class="menu">
             <a href="{{ route('dashboard.beranda') }}">🏠 Beranda</a>
-            <a href="{{ route('siswa.dashboard') }}">👥 Calon Siswa</a>
+            <a href="{{ route('dashboard.calon_siswa') }}">👥 Calon Siswa</a>
             <a href="#">📋 Biodata</a>
             <a href="#">📊 Status</a>
             <a href="#">🔁 Daftar Ulang</a>

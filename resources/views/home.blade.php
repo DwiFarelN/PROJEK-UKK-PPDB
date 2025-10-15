@@ -15,7 +15,8 @@
         <!-- Di dalam navbar -->
 
         <div class="container">
-            <a class="navbar-brand" href="#">
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <img src="images/logo.png" alt="Logo SMK" class="navbar-logo">
                 <span class="fw-bold">PPDB</span> 
                 <span class="fw-normal">SMK ANTARTIKA 1 SIDOARJO</span>
             </a>
@@ -65,7 +66,7 @@
 @else
     <div>
         <a href="{{ route('login') }}" class="btn login-btn">Masuk</a>
-        <a href="{{ route('register') }}" class="btn register-btn">Daftar</a>
+        <a href="{{ route('daftar') }}" class="btn register-btn">Daftar</a>
     </div>
 @endauth
                 </div>
@@ -82,7 +83,7 @@
             </div>
             <h2 class="hero-subtitle">Penerimaan Peserta Didik Baru</h2>
             <h3 class="hero-subtitle">Tahun Ajaran 2025/2026</h3>
-            <a href="{{ route('register') }}" class="btn btn-primary-custom mt-4">Daftar Sekarang</a>
+            <a href="{{ route('daftar') }}" class="btn btn-primary-custom mt-4">Daftar Sekarang</a>
         </div>
     </section>
 

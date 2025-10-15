@@ -8,20 +8,20 @@
 </head>
 <body class="bg-gray-50 text-gray-800">
 
-    {{-- Navbar --}}
-<nav class="bg-blue-900 text-white shadow-md">
-    <div class="max-w-7xl mx-auto px-6 py-3 flex justify-between items-center">
-        <a href="{{ route('home') }}" class="flex items-center space-x-3">
-            <img src="{{ asset('images/logo.png') }}" alt="Logo PPDB" class="h-10 w-auto">
-            <span class="text-2xl font-bold text-white hover:text-red-400">PPDB Online</span>
+ <nav class="bg-blue-900 text-white p-4 fixed top-0 left-0 w-full z-50 shadow-md">
+    <div class="container mx-auto flex justify-between items-center">
+        <a href="/" class="text-xl font-bold flex items-center gap-2">
+            <img src="{{ asset('images/logo.png') }}" alt="Logo" class="h-8">
+            PPDB Online
         </a>
-        <div class="space-x-6 text-lg">
-            <a href="{{ route('home') }}" class="hover:text-red-400">Beranda</a>
-            <a href="{{ route('register') }}" class="hover:text-red-400">Daftar</a>
-            <a href="#" class="hover:text-red-400">Login</a>
+        <div>
+            <a href="{{ route('home') }}" class="mx-2 hover:underline">Beranda</a>
+            <a href="{{ route('daftar') }}" class="mx-2 hover:underline">Daftar</a>
+            <a href="{{ route('login') }}" class="mx-2 hover:underline">Login</a>
         </div>
     </div>
 </nav>
+
 
 
     {{-- Main content --}}

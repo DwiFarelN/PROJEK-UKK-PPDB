@@ -1,38 +1,37 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
-
-use App\Http\Controllers\Controller;
-use App\Models\User;
+namespace App\Http\Controllers;
+use App\Models\Jurusan; // model jurusan
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
+use App\Models\Siswa; // misal model data pendaftaran
 use Illuminate\Support\Facades\Auth;
 
-class RegisterController extends Controller
+class PendaftaranController extends Controller
 {
-    public function showRegistrationForm()
+    public function index()
     {
-        return view('auth.register');
+        $jurusan = Jurusan::all(); // ambil semua jurusan
+        return view('pendaftaran.form', compact('jurusan'));
     }
 
-    public function register(Request $request)
+    public function store(Request $request)
     {
+        // simpan data pendaftaran siswa
         $request->validate([
-            'name' => 'required|string|max:255',
-            'email' => 'required|email|unique:users',
-            'password' => 'required|min:6|confirmed',
+            'nama' => 'required|string|max:255',
+            'alamat' => 'required|string',
+            'tgl_lahir' => 'required|date',
         ]);
 
-        $user = User::create([
-            'name' => $request->name,
-            'email' => $request->email,
-            'password' => Hash::make($request->password),
+        $user = Auth::user();
+
+        Siswa::create([
+            'user_id' => $user->id,
+            'nama' => $request->nama,
+            'alamat' => $request->alamat,
+            'tgl_lahir' => $request->tgl_lahir,
         ]);
 
-        // ✅ Pastikan user langsung login
-        Auth::login($user);
-
-        // ✅ Redirect ke beranda dashboard
-        return redirect()->route('dashboard.beranda')->with('success', 'Pendaftaran berhasil! Selamat datang, ' . $user->name);
+        return redirect()->route('siswa.dashboard')->with('success', 'Data pendaftaran berhasil disimpan!');
     }
 }
